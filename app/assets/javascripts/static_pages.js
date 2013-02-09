@@ -19,24 +19,8 @@ var rtwMap = new function () {
 
   var plotLocations = function () {
     $.each(locations, function () {
-      console.log(this);
       plotLocation(this);
     })
-  }
-
-  var getLocations = function () {
-    $.ajax({
-      url: locationsUrl,
-      type: 'GET',
-      success: function (data) {
-        locations = data;
-        console.log('Success obtaining locations.');
-        plotLocations();
-      },
-      error: function () {
-        console.log('Error obtaining locations.');
-      }
-    });
   }
 
   return {
@@ -44,7 +28,17 @@ var rtwMap = new function () {
       map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
     },
     plotLocations: function () {
-      getLocations();
+      $.ajax({
+        url: locationsUrl,
+        type: 'GET',
+        success: function (data) {
+          locations = data;
+          plotLocations();
+        },
+        error: function () {
+          console.log('Error obtaining locations.');
+        }
+      });
     }
   }
 }
