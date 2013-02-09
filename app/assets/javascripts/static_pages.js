@@ -6,36 +6,50 @@ var rtwMap = new function () {
     mapTypeId: google.maps.MapTypeId.ROADMAP
   };
 
-  var locations = [{
-    name: 'Chicago',
-    lat: 41.9,
-    lng: -87.65
-  },
-  {
-    name: 'Reykjavik, Iceland',
-    lat: 64.14,
-    lng: -21.9
-  }];
+  var locationsUrl = '/locations.json';
+  var locations = null;
 
   var plotLocation = function (location) {
     var marker = new google.maps.Marker({
-      position: new google.maps.LatLng(location.lat, location.lng),
+      position: new google.maps.LatLng(location.lat, location.lon),
       map: map,
       title: location.name
+    });
+  }
+
+  var plotLocations = function () {
+    $.each(locations, function () {
+      console.log(this);
+      plotLocation(this);
+    })
+  }
+
+  var getLocations = function () {
+    $.ajax({
+      url: locationsUrl,
+      type: 'GET',
+      success: function (data) {
+        locations = data;
+        console.log('Success obtaining locations.');
+        plotLocations();
+      },
+      error: function () {
+        console.log('Error obtaining locations.');
+      }
     });
   }
 
   return {
     init: function () {
       map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
-      $.each(locations, function () {
-        console.log(this);
-        plotLocation(this);
-      });
+    },
+    plotLocations: function () {
+      getLocations();
     }
   }
 }
 
 $(document).ready(function() {
   rtwMap.init();
+  rtwMap.plotLocations();
 });
