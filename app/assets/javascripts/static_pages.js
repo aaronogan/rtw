@@ -10,12 +10,17 @@ var rtwMap = new function () {
   var locationsUrl = '/locations.json';
   var locationsList = 'location-list';
   var locationPoints = [];
-  var routeColor = '#ff0000';
+  var markerColor = 'ff0000';
+  var routeColor = 'ff0000';
+
+  var getMarkerImgPath = function (sequence) {
+    return 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + sequence + '%7C' + markerColor + '%7C000000';
+  }
 
   var createLocationArray = function (locations) {
     $.each(locations, function () {
       var latLng = new google.maps.LatLng(this.lat, this.lon);
-      locationPoints.push({ name: this.name, point: latLng });
+      locationPoints.push({ name: this.name, point: latLng, sequence: this.sequence });
     });
   }
 
@@ -29,7 +34,8 @@ var rtwMap = new function () {
     new google.maps.Marker({
       position: location.point,
       map: map,
-      title: location.name
+      title: location.name,
+      icon: getMarkerImgPath(location.sequence)
     });
   }
 
@@ -54,7 +60,7 @@ var rtwMap = new function () {
     var route = new google.maps.Polyline({
       path: getPoints(),
       icons: [{ icon: arrow, offset: '100%' }],
-      strokeColor: routeColor,
+      strokeColor: '#' + routeColor,
       strokeOpacity: 1.0,
       strokeWeight: 2
     });
