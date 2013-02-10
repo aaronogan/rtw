@@ -8,12 +8,26 @@ var rtwMap = new function () {
   };
 
   var locationsUrl = '/locations.json';
-  var locations = null;
   var locationsList = 'location-list';
+  var locationPoints = [];
+  var routeColor = '#ff0000';
+
+  var createLocationArray = function (locations) {
+    $.each(locations, function () {
+      var latLng = new google.maps.LatLng(this.lat, this.lon);
+      locationPoints.push({ name: this.name, point: latLng });
+    });
+  }
+
+  var getPoints = function () {
+    return $.map(locationPoints, function (obj, i) {
+      return obj.point;
+    });
+  }
 
   var plotLocation = function (location) {
-    var marker = new google.maps.Marker({
-      position: new google.maps.LatLng(location.lat, location.lon),
+    new google.maps.Marker({
+      position: location.point,
       map: map,
       title: location.name
     });
@@ -22,29 +36,37 @@ var rtwMap = new function () {
   var addToLocationsList = function (location) {
     var div = $('#'+ locationsList);
     if (div.children().length === 0) {
-      div.append('<ul></ul>');
+      div.append('<ol></ol>');
     }
-    var ul = div.children().first();
-    ul.append('<li>' + location.name + '</li>');
+    var ol = div.children().first();
+    ol.append('<li>' + location.name + '</li>');
   }
 
   var displayLocations = function () {
-    $.each(locations, function () {
+    $.each(locationPoints, function () {
       plotLocation(this);
       addToLocationsList(this);
     })
+
+    var route = new google.maps.Polyline({
+      path: getPoints(),
+      strokeColor: routeColor,
+      strokeOpacity: 1.0,
+      strokeWeight: 2
+    });
+    route.setMap(map);
   }
 
   return {
     init: function () {
       map = new google.maps.Map(document.getElementById(mapCanvas), mapOptions);
     },
-    plotLocations: function () {
+    draw: function () {
       $.ajax({
         url: locationsUrl,
         type: 'GET',
         success: function (data) {
-          locations = data;
+          createLocationArray(data);
           displayLocations();
         },
         error: function () {
@@ -57,5 +79,5 @@ var rtwMap = new function () {
 
 $(document).ready(function() {
   rtwMap.init();
-  rtwMap.plotLocations();
+  rtwMap.draw();
 });
