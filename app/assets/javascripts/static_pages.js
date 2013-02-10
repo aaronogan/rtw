@@ -1,7 +1,7 @@
 var rtwMap = new function () {
   var map = null;
   var mapOptions = {
-    center: new google.maps.LatLng(0, 0),
+    center: new google.maps.LatLng(15, 0),
     zoom: 2,
     mapTypeId: google.maps.MapTypeId.ROADMAP
   };
