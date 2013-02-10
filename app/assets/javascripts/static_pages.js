@@ -46,10 +46,14 @@ var rtwMap = new function () {
     $.each(locationPoints, function () {
       plotLocation(this);
       addToLocationsList(this);
-    })
+    });
+  }
 
+  var drawRoute = function () {
+    var arrow = { path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW };
     var route = new google.maps.Polyline({
       path: getPoints(),
+      icons: [{ icon: arrow, offset: '100%' }],
       strokeColor: routeColor,
       strokeOpacity: 1.0,
       strokeWeight: 2
@@ -68,6 +72,7 @@ var rtwMap = new function () {
         success: function (data) {
           createLocationArray(data);
           displayLocations();
+          drawRoute();
         },
         error: function () {
           console.log('Error obtaining locations.');
