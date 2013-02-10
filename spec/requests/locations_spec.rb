@@ -4,8 +4,8 @@ describe "Locations" do
 
   before do
     @locations = [
-      Location.create!(:name => 'Chicago', :lat => 41.9, :lon => -87.65),
-      Location.create!(:name => 'Reykjavik', :lat => 64.14, :lon => -21.9)
+      Location.create!(:name => 'Reykjavik', :lat => 64.14, :lon => -21.9, :sequence => 2),
+      Location.create!(:name => 'Chicago', :lat => 41.9, :lon => -87.65, :sequence => 1)
     ]
   end
 
@@ -23,6 +23,11 @@ describe "Locations" do
       subject[1]['name'].should == 'Reykjavik'
       subject[1]['lat'].should == 64.14
       subject[1]['lon'].should == -21.9
+    end
+
+    it "should return an ordered list of locations" do
+      subject[0]['sequence'].should == 1
+      subject[1]['sequence'].should == 2
     end
   end
 end
