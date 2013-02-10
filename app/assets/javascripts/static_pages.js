@@ -25,7 +25,7 @@ var rtwMap = new function () {
 
   return {
     init: function () {
-      map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
+      map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
     },
     plotLocations: function () {
       $.ajax({
