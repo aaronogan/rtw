@@ -87,7 +87,3 @@ var rtwMap = new function () {
     }
   }
 }
-
-function displayImages(data) {
-  console.log(data);
-}
