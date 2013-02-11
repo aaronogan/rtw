@@ -88,7 +88,12 @@ var rtwMap = new function () {
   }
 }
 
+function displayImages(data) {
+  console.log(data);
+}
+
 $(document).ready(function() {
   rtwMap.init();
   rtwMap.draw();
+  $.getJSON('http://api.flickr.com/services/rest/?method=flickr.photosets.getPhotos&api_key=9fc6793bf69c7609db1121c696495f7e&photoset_id=72157629697818694&format=json&nojsoncallback=1&auth_token=72157632740462201-6f6a20c9e1204d55&api_sig=7ee844fbcce23aa1876cf1ee28ce8b0f', displayImages);
 });
