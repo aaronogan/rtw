@@ -30,20 +30,20 @@ var rtwMap = new function () {
     });
   }
 
-  var generateInfoWindow = function (location) {
+  var attachInfoWindow = function (location, marker) {
     var content = '<h4>' + location.name + '</h4>';
 
     if (location.photoset) {
-      rtwFlickr.getThumbnails(location.photoset, 4, function (data) {
-        if (data) {
-          console.log(data);
-        }
+      rtwFlickr.getThumbnails(location.photoset, 4);
+    } else {
+      var infoWindow = new google.maps.InfoWindow({
+        content: content
+      });
+
+      google.maps.event.addListener(marker, 'click', function () {
+        infoWindow.open(map, marker);
       });
     }
-
-    return new google.maps.InfoWindow({
-      content: content
-    });
   }
 
   var plotLocation = function (location) {
@@ -54,10 +54,7 @@ var rtwMap = new function () {
       icon: getMarkerImgPath(location.sequence)
     });
 
-    var infoWindow = generateInfoWindow(location);
-    google.maps.event.addListener(marker, 'click', function () {
-      infoWindow.open(map, marker);
-    });
+    attachInfoWindow(location, marker);
   }
 
   var addToLocationsList = function (location) {
@@ -86,10 +83,6 @@ var rtwMap = new function () {
       strokeWeight: 2
     });
     route.setMap(map);
-  }
-
-  var displayDetails = function () {
-    console.log('displayDetails');
   }
 
   return {
