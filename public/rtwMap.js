@@ -32,6 +32,15 @@ var rtwMap = new function () {
 
   var generateInfoWindow = function (location) {
     var content = '<h4>' + location.name + '</h4>';
+
+    if (location.photoset) {
+      rtwFlickr.getThumbnails(location.photoset, 4, function (data) {
+        if (data) {
+          console.log(data);
+        }
+      });
+    }
+
     return new google.maps.InfoWindow({
       content: content
     });
