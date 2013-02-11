@@ -34,7 +34,16 @@ var rtwMap = new function () {
     var content = '<h4>' + location.name + '</h4>';
 
     if (location.photoset) {
-      rtwFlickr.getThumbnails(location.photoset, 4);
+      console.log('has photoset assigned');
+      rtwFlickr.getPhotosetPreview(location.photoset, function (data) {
+        console.log('callback');
+        var infoWindow = new google.maps.InfoWindow({
+          content: content
+        });
+        google.maps.event.addListener(marker, 'click', function () {
+          infoWindow.open(map, marker);
+        });
+      });
     } else {
       var infoWindow = new google.maps.InfoWindow({
         content: content
