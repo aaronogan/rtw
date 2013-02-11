@@ -20,7 +20,7 @@ var rtwMap = new function () {
   var createLocationArray = function (locations) {
     $.each(locations, function () {
       var latLng = new google.maps.LatLng(this.lat, this.lon);
-      locationPoints.push({ name: this.name, point: latLng, sequence: this.sequence });
+      locationPoints.push({ name: this.name, point: latLng, sequence: this.sequence, photoset: this.photoset });
     });
   }
 
@@ -30,12 +30,24 @@ var rtwMap = new function () {
     });
   }
 
+  var generateInfoWindow = function (location) {
+    var content = '<h4>' + location.name + '</h4>';
+    return new google.maps.InfoWindow({
+      content: content
+    });
+  }
+
   var plotLocation = function (location) {
-    new google.maps.Marker({
+    var marker = new google.maps.Marker({
       position: location.point,
       map: map,
       title: location.name,
       icon: getMarkerImgPath(location.sequence)
+    });
+
+    var infoWindow = generateInfoWindow(location);
+    google.maps.event.addListener(marker, 'click', function () {
+      infoWindow.open(map, marker);
     });
   }
 
@@ -65,6 +77,10 @@ var rtwMap = new function () {
       strokeWeight: 2
     });
     route.setMap(map);
+  }
+
+  var displayDetails = function () {
+    console.log('displayDetails');
   }
 
   return {
