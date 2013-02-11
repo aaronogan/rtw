@@ -6,6 +6,7 @@
     <th>Lat</th>
     <th>Lon</th>
     <th>Sequence</th>
+    <th>Photoset</th>
     <th></th>
     <th></th>
     <th></th>
@@ -17,6 +18,7 @@
     <td><%= location.lat %></td>
     <td><%= location.lon %></td>
     <td><%= location.sequence %></td>
+    <td><%= location.photoset %></td>
     <td><%= link_to 'Show', location %></td>
     <td><%= link_to 'Edit', edit_location_path(location) %></td>
     <td><%= link_to 'Destroy', location, method: :delete, data: { confirm: 'Are you sure?' } %></td>
