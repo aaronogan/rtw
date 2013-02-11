@@ -34,9 +34,14 @@ var rtwMap = new function () {
     var content = '<h4>' + location.name + '</h4>';
 
     if (location.photoset) {
-      console.log('has photoset assigned');
       rtwFlickr.getPhotosetPreview(location.photoset, function (data) {
-        console.log('callback');
+        content += '<table><tr><td>';
+        content += '<img src="' + data.thumbs[0] + '"></td><td>';
+        content += '<img src="' + data.thumbs[1] + '"></td></tr><tr><td>';
+        content += '<img src="' + data.thumbs[2] + '"></td><td>';
+        content += '<img src="' + data.thumbs[3] + '"></td>';
+        content += '</tr></table>';
+
         var infoWindow = new google.maps.InfoWindow({
           content: content
         });

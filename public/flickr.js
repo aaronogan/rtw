@@ -34,7 +34,6 @@ var rtwFlickr = new function () {
       url += '&' + this.key + '=' + this.value;
     });
 
-    //$.getJSON(url, callback);
     $.ajax({
       url: url,
       dataType: 'json',
