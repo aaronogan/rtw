@@ -74,6 +74,7 @@ var rtwMap = new function () {
     });
 
     attachInfoWindow(location, marker);
+    return marker;
   }
 
   var addToLocationsList = function (location) {
@@ -82,12 +83,12 @@ var rtwMap = new function () {
       div.append('<ol></ol>');
     }
     var ol = div.children().first();
-    ol.append('<li>' + location.name + '</li>');
+    ol.append('<li><a href="#" class="location" id="location_' + location.sequence + '">' + location.name + '</a></li>');
   }
 
   var displayLocations = function () {
     $.each(locationPoints, function () {
-      plotLocation(this);
+      this.marker = plotLocation(this);
       addToLocationsList(this);
     });
   }
@@ -104,6 +105,15 @@ var rtwMap = new function () {
     route.setMap(map);
   }
 
+  var addDomListeners = function () {
+    $.each(locationPoints, function () {
+      var marker = this.marker;
+      $('#location_' + this.sequence).click(function () {
+        google.maps.event.trigger(marker, 'click');
+      });
+    });
+  }
+
   return {
     init: function () {
       map = new google.maps.Map(document.getElementById(mapCanvas), mapOptions);
@@ -116,6 +126,7 @@ var rtwMap = new function () {
           createLocationArray(data);
           displayLocations();
           drawRoute();
+          addDomListeners();
         },
         error: function () {
           console.log('Error obtaining locations.');
