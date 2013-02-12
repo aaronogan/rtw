@@ -32,7 +32,7 @@ var rtwMap = new function () {
     });
   }
 
-  var setInfoWindowListener = function (marker, content) {
+  var setInfoWindowListener = function (point, marker, content) {
     var infoWindow = new google.maps.InfoWindow({
       content: content
     });
@@ -42,6 +42,8 @@ var rtwMap = new function () {
         currentInfoWindow.close();
       }
 
+      map.panTo(point);
+      map.setZoom(5);
       infoWindow.open(map, marker);
       currentInfoWindow = infoWindow;
     });
@@ -58,10 +60,10 @@ var rtwMap = new function () {
         content += '<tr><td><img src="' + data.thumbs[2] + '"></td>';
         content += '<td><img src="' + data.thumbs[3] + '"></td>';
         content += '</tr></table>';
-        setInfoWindowListener(marker, content);
+        setInfoWindowListener(location.point, marker, content);
       });
     } else {
-      setInfoWindowListener(marker, content);
+      setInfoWindowListener(location.point, marker, content);
     }
   }
 
@@ -110,6 +112,7 @@ var rtwMap = new function () {
       var marker = this.marker;
       $('#location_' + this.sequence).click(function () {
         google.maps.event.trigger(marker, 'click');
+        return false;
       });
     });
   }
