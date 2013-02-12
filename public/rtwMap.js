@@ -13,6 +13,8 @@ var rtwMap = new function () {
   var markerColor = 'ff0000';
   var routeColor = 'ff0000';
 
+  var currentInfoWindow = null;
+
   var getMarkerImgPath = function (sequence) {
     return 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + sequence + '%7C' + markerColor + '%7C000000';
   }
@@ -30,6 +32,21 @@ var rtwMap = new function () {
     });
   }
 
+  var setInfoWindowListener = function (marker, content) {
+    var infoWindow = new google.maps.InfoWindow({
+      content: content
+    });
+
+    google.maps.event.addListener(marker, 'click', function () {
+      if (currentInfoWindow) {
+        currentInfoWindow.close();
+      }
+
+      infoWindow.open(map, marker);
+      currentInfoWindow = infoWindow;
+    });
+  }
+
   var attachInfoWindow = function (location, marker) {
     var content = '<h4>' + location.name + '</h4>';
 
@@ -41,22 +58,10 @@ var rtwMap = new function () {
         content += '<tr><td><img src="' + data.thumbs[2] + '"></td>';
         content += '<td><img src="' + data.thumbs[3] + '"></td>';
         content += '</tr></table>';
-
-        var infoWindow = new google.maps.InfoWindow({
-          content: content
-        });
-        google.maps.event.addListener(marker, 'click', function () {
-          infoWindow.open(map, marker);
-        });
+        setInfoWindowListener(marker, content);
       });
     } else {
-      var infoWindow = new google.maps.InfoWindow({
-        content: content
-      });
-
-      google.maps.event.addListener(marker, 'click', function () {
-        infoWindow.open(map, marker);
-      });
+      setInfoWindowListener(marker, content);
     }
   }
 
