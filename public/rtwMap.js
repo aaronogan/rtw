@@ -35,11 +35,11 @@ var rtwMap = new function () {
 
     if (location.photoset) {
       rtwFlickr.getPhotosetPreview(location.photoset, function (data) {
-        content += '<table><tr><td>';
-        content += '<img src="' + data.thumbs[0] + '"></td><td>';
-        content += '<img src="' + data.thumbs[1] + '"></td></tr><tr><td>';
-        content += '<img src="' + data.thumbs[2] + '"></td><td>';
-        content += '<img src="' + data.thumbs[3] + '"></td>';
+        content += '<table><tr>';
+        content += '<td><img src="' + data.thumbs[0] + '"></td>';
+        content += '<td><img src="' + data.thumbs[1] + '"></td></tr>';
+        content += '<tr><td><img src="' + data.thumbs[2] + '"></td>';
+        content += '<td><img src="' + data.thumbs[3] + '"></td>';
         content += '</tr></table>';
 
         var infoWindow = new google.maps.InfoWindow({
