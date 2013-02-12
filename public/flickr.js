@@ -1,7 +1,6 @@
 var rtwFlickr = new function () {
   var baseUrl = 'http://api.flickr.com/services/rest/';
-  var apiKey = '9fc6793bf69c7609db1121c696495f7e';
-  var apiSig = '7ee844fbcce23aa1876cf1ee28ce8b0f';
+  var apiKey = 'e07639d624ba73af0215b087fcd88f18';
   var authToken = '72157632740462201-6f6a20c9e1204d55';
   var userId = '77927895@N08';
   var IMAGE_SIZE = {
@@ -40,7 +39,7 @@ var rtwFlickr = new function () {
   }
 
   var callApi = function (method, params, callback) {
-    var url = baseUrl + '?method=' + method + '&api_key=' + apiKey + '&format=json&nojsoncallback=1'; //&auth_token=' + authToken; // + '&api_sig=' + apiSig;
+    var url = baseUrl + '?method=' + method + '&api_key=' + apiKey + '&format=json&nojsoncallback=1';
     $.each(params, function () {
       url += '&' + this.key + '=' + this.value;
     });
