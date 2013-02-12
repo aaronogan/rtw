@@ -3,17 +3,19 @@ var rtwFlickr = new function () {
   var apiKey = '9fc6793bf69c7609db1121c696495f7e';
   var apiSig = '7ee844fbcce23aa1876cf1ee28ce8b0f';
   var authToken = '72157632740462201-6f6a20c9e1204d55';
-  var size_thumb = 't'; // 150 on longest side
-  var size_small_square = 's'; // 75x75
-  var size_large_square = 'q'; // 150x150
-  var size_medium = 'z'; // 640 on longest side
+  var IMAGE_SIZE = {
+    THUMB: 't', // 150 on longest side
+    SMALL_SQUARE: 's', // 75x75
+    LARGE_SQUARE: 'q', // 150x150
+    MEDIUM: 'z' // 640 on longest side
+  };
   var thumbnailsInPreview = 4;
 
   var getLatestThumbnails = function (data, callback) {
     var thumbs = [];
-    if (data.stat === "ok") {
+    if (data.stat === 'ok') {
        $.each(data.photoset.photo, function () {
-         var url = getPhotoUrl(size_small_square, this.farm, this.server, this.id, this.secret);
+         var url = getPhotoUrl(IMAGE_SIZE.SMALL_SQUARE, this.farm, this.server, this.id, this.secret);
          thumbs.push(url);
        });
     } else {
