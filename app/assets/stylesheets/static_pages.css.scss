@@ -25,6 +25,7 @@ body {
 
 #location-list {
   float: right;
-  height: 100%;
+  height: 500px;
   width: 25%;
+  overflow: scroll;
 }
