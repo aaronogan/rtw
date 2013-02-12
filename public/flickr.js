@@ -10,12 +10,16 @@ var rtwFlickr = new function () {
     MEDIUM: 'z' // 640 on longest side
   };
   var thumbnailsInPreview = 4;
+  var preloadImages = true;
 
   var getLatestThumbnails = function (data, callback) {
     var thumbs = [];
     if (data.stat === 'ok') {
        $.each(data.photoset.photo, function () {
          var url = getPhotoUrl(IMAGE_SIZE.SMALL_SQUARE, this.farm, this.server, this.id, this.secret);
+         if (preloadImages) {
+           $('<img />')[0].src = url;
+         }
          thumbs.push(url);
        });
     } else {
