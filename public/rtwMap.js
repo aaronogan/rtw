@@ -60,6 +60,7 @@ var rtwMap = new function () {
         content += '<tr><td><img src="' + data.thumbs[2] + '"></td>';
         content += '<td><img src="' + data.thumbs[3] + '"></td>';
         content += '</tr></table>';
+        content += '<a href="' + rtwFlickr.getPhotosetUrl(location.photoset) + '" target="_blank">See Photos</a>';
         setInfoWindowListener(location.point, marker, content);
       });
     } else {

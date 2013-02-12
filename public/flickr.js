@@ -3,6 +3,7 @@ var rtwFlickr = new function () {
   var apiKey = '9fc6793bf69c7609db1121c696495f7e';
   var apiSig = '7ee844fbcce23aa1876cf1ee28ce8b0f';
   var authToken = '72157632740462201-6f6a20c9e1204d55';
+  var userId = '77927895@N08';
   var IMAGE_SIZE = {
     THUMB: 't', // 150 on longest side
     SMALL_SQUARE: 's', // 75x75
@@ -34,6 +35,10 @@ var rtwFlickr = new function () {
     return 'http://farm' + farm + '.staticflickr.com/' + server + '/' + id + '_' + secret + '_' + size + '.jpg';
   }
 
+  var getSetUrl = function (id) {
+    return 'http://www.flickr.com/photos/' + userId + '/sets/' + id;
+  }
+
   var callApi = function (method, params, callback) {
     var url = baseUrl + '?method=' + method + '&api_key=' + apiKey + '&format=json&nojsoncallback=1'; //&auth_token=' + authToken; // + '&api_sig=' + apiSig;
     $.each(params, function () {
@@ -61,8 +66,10 @@ var rtwFlickr = new function () {
         getPhotoset(photosetId, callback);
       }
     },
-    getPhotosetPhotos: function (photosetId) {
-      console.log('getPhotosetPhotos');
+    getPhotosetUrl: function (photosetId) {
+      if (photosetId) {
+        return getSetUrl(photosetId);
+      }
     }
   };
 }
