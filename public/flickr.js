@@ -13,7 +13,7 @@ var rtwFlickr = new function () {
     var thumbs = [];
     if (data.stat === "ok") {
        $.each(data.photoset.photo, function () {
-         var url = getPhotoUrl(size_thumb, this.farm, this.server, this.id, this.secret);
+         var url = getPhotoUrl(size_small_square, this.farm, this.server, this.id, this.secret);
          thumbs.push(url);
        });
     } else {
