@@ -10,6 +10,14 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
+  background-image: url('http://backpackofmemories.com/wp-content/themes/matala/images/bg-wrapper.jpg');
+}
+
+h1, h2, h3 {
+  font-family: Georgia, serif;
+  font-weight: normal;
+  color: #fff;
+  text-shadow: rgb(0, 0, 0) -2px -2px 4px;
 }
 
 #content {
@@ -24,6 +32,7 @@ body {
 }
 
 #location-list {
+  background-color: #fff;
   float: right;
   height: 500px;
   width: 25%;
