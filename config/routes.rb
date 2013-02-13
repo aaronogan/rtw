@@ -1,4 +1,7 @@
 Rtw::Application.routes.draw do
+  resources :comments
+
+
   get "static_pages/home"
 
   resources :locations
