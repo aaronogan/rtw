@@ -2,6 +2,7 @@
 
 <table>
   <tr>
+    <th>Location ID</th>
     <th>Name</th>
     <th>Url</th>
     <th>Content</th>
@@ -12,6 +13,7 @@
 
 <% @comments.each do |comment| %>
   <tr>
+    <td><%= comment.location_id %></td>
     <td><%= comment.name %></td>
     <td><%= comment.url %></td>
     <td><%= comment.content %></td>
