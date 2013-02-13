@@ -13,6 +13,8 @@ var rtwMap = new function () {
   var markerColor = 'ff0000';
   var routeColor = 'ff0000';
 
+  var commentsUrl = '/comments/create';
+
   var currentInfoWindow = null;
 
   var getMarkerImgPath = function (sequence) {
@@ -20,9 +22,10 @@ var rtwMap = new function () {
   }
 
   var createLocationArray = function (locations) {
+    console.log(locations);
     $.each(locations, function () {
       var latLng = new google.maps.LatLng(this.lat, this.lon);
-      locationPoints.push({ name: this.name, point: latLng, sequence: this.sequence, photoset: this.photoset });
+      locationPoints.push({ name: this.name, point: latLng, sequence: this.sequence, photoset: this.photoset, comments: this.comments });
     });
   }
 
@@ -49,21 +52,37 @@ var rtwMap = new function () {
     });
   }
 
+  var addPhotosetPreview = function (content, photoset, callback) {
+    rtwFlickr.getPhotosetPreview(photoset, function (data) {
+      callback();
+    });
+  }
+
   var attachInfoWindow = function (location, marker) {
-    var content = '<h4>' + location.name + '</h4>';
+    var content = '<h4>' + location.name + '</h4>{0}{1}';
+    var comments = '';
+    var photos = '';
+
+    if (location.comments) {
+      $.each(location.comments, function () {
+        comments += '<span>' + this.name + ' says: ' + this.comment  + '</span><br />'
+      });
+    }
 
     if (location.photoset) {
       rtwFlickr.getPhotosetPreview(location.photoset, function (data) {
-        content += '<table><tr>';
-        content += '<td><img src="' + data.thumbs[0] + '"></td>';
-        content += '<td><img src="' + data.thumbs[1] + '"></td></tr>';
-        content += '<tr><td><img src="' + data.thumbs[2] + '"></td>';
-        content += '<td><img src="' + data.thumbs[3] + '"></td>';
-        content += '</tr></table>';
-        content += '<a href="' + rtwFlickr.getPhotosetUrl(location.photoset) + '" target="_blank">See Photos</a>';
+        photos += '<table><tr>';
+        photos += '<td><img src="' + data.thumbs[0] + '"></td>';
+        photos += '<td><img src="' + data.thumbs[1] + '"></td></tr>';
+        photos += '<tr><td><img src="' + data.thumbs[2] + '"></td>';
+        photos += '<td><img src="' + data.thumbs[3] + '"></td>';
+        photos += '</tr></table>';
+        photos += '<a href="' + rtwFlickr.getPhotosetUrl(location.photoset) + '" target="_blank">See Photos</a>';
+        content = content.format(photos, comments);
         setInfoWindowListener(location.point, marker, content);
       });
     } else {
+      content = content.format(photos, comments);
       setInfoWindowListener(location.point, marker, content);
     }
   }
