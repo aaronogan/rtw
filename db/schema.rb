@@ -17,9 +17,12 @@ ActiveRecord::Schema.define(:version => 20130213163416) do
     t.string   "name"
     t.string   "url"
     t.string   "content"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.integer  "location_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
+
+  add_index "comments", ["location_id", "created_at"], :name => "index_comments_on_location_id_and_created_at"
 
   create_table "locations", :force => true do |t|
     t.string   "name"
