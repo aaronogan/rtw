@@ -80,4 +80,11 @@ class CommentsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  #GET /comments/by_location
+  #GET /comments/by_location.json
+  def by_location
+    @location = Location.find(params[:id])
+    
+  end
 end

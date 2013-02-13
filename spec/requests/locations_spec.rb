@@ -4,9 +4,11 @@ describe "Locations" do
 
   before do
     @locations = [
-      Location.create!(:name => 'Reykjavik', :lat => 64.14, :lon => -21.9, :sequence => 2),
-      Location.create!(:name => 'Chicago', :lat => 41.9, :lon => -87.65, :sequence => 1)
+      Location.create!(:id => 1, :name => 'Reykjavik', :lat => 64.14, :lon => -21.9, :sequence => 2),
+      Location.create!(:id => 2, :name => 'Chicago', :lat => 41.9, :lon => -87.65, :sequence => 1)
     ]
+
+    @locations[0].comments.build(:name => 'Name', :url => 'URL', :content => 'Content', :location_id => 1)
   end
 
   context "Fetching list of locations" do
@@ -28,6 +30,11 @@ describe "Locations" do
     it "should return an ordered list of locations" do
       subject[0]['sequence'].should == 1
       subject[1]['sequence'].should == 2
+    end
+
+    it "should return locations with comments" do
+      subject[0]['comments'].should_not == nil
+      #subject[0]['comments']['name'].should == 'Name'
     end
   end
 end
