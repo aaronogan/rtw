@@ -86,12 +86,23 @@ var rtwMap = new function () {
     return marker;
   }
 
+  var getCommentHtml = function(comment) {
+    var link = '<a href="{0}" target="_blank">{1}</a>'.format(comment.url, comment.name);
+    var html = '<span class="comment"><b>{0} said</b>: <i>{1}</i></span><br />';
+
+    if (comment.url) {
+      return html.format(link, comment.content);
+    } else {
+      return html.format(comment.name, comment.content);
+    }
+  }
+
   var drawAccordionElement = function (index, location) {
     var html = '<h3>{0}. {1}</h3><div><p>{2}</p><p>{3}</p></div>';
     var content = '<a href="#" class="location" id="location_{0}">See on Map</a>'.format(location.sequence);
     var pastComments = '';
     $.each(location.comments, function () {
-      console.log('todo: display comment');
+      pastComments += getCommentHtml(this);
     });
     var commentForm = $('div.hidden form');
     commentForm.append($('<input>', { 'name': 'location_id', 'value': location.id, 'type': 'hidden' }));
@@ -116,6 +127,7 @@ var rtwMap = new function () {
       data: comment,
       success: function (data) {
         console.log('todo: display the new comment');
+        
         form.reset();
       },
       error: function (x, s, e) {
