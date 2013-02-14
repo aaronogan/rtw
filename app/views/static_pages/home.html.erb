@@ -18,15 +18,21 @@
 </div>
 
 <div class="hidden">
-  <%= form_tag({:controller => "comments"}, :method => "post") do %>
-    <%= label_tag(:name, "Name:") %>
-    <%= text_field_tag(:name) %>
+  <%= form_tag({:controller => "comments"}, :method => "post", :remote => true, :html => {:'data-type' => 'json'}) do %>
+    <p>
+      <%= label_tag(:name, "Name:") %>
+      <%= text_field_tag(:name) %>
+    </p>
 
-    <%= label_tag(:url, "Website:") %>
-    <%= text_field_tag(:url) %>
+    <p>
+      <%= label_tag(:url, "Website:") %>
+      <%= text_field_tag(:url) %>
+    </p>
 
-    <%= label_tag(:content, "Comment:") %>
-    <%= text_area_tag(:content, "", :size => "24x2") %>
+    <p>
+      <%= label_tag(:content, "Comment:") %>
+      <%= text_area_tag(:content, "", :size => "24x2") %>
+    </p>
 
     <%= submit_tag("Submit") %>
   <% end %>
