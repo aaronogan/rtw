@@ -98,23 +98,28 @@ var rtwMap = new function () {
   }
 
   var drawAccordionElement = function (index, location) {
-    var html = '<h3>{0}. {1}</h3><div><p>{2}</p><p>{3}</p></div>';
-    var content = '<a href="#" class="location" id="location_{0}">See on Map</a>'.format(location.sequence);
+    var html = '<h3>{0}. {1}</h3><div>{2}{3}{4}</div>';
+    var content = '<div id="location-links-{0}"><a href="#" class="location" id="location_{1}">See on Map</a></div>'.format(location.sequence, location.sequence);
+    var comments = '<div id="location-comments-{0}">{1}</div>';
     var pastComments = '';
     $.each(location.comments, function () {
       pastComments += getCommentHtml(this);
     });
+
+    comments = comments.format(location.sequence, pastComments);
+
     var commentForm = $('div.hidden form');
     commentForm.append($('<input>', { 'name': 'location_id', 'value': location.id, 'type': 'hidden' }));
-    var comments = '{0}Leave a comment<br />{1}'.format(pastComments, commentForm[0].outerHTML);
-    html = html.format((index + 1), location.name, content, comments);
 
+    var commentFormContainer = '<div>Leave a comment<br />{0}'.format(commentForm[0].outerHTML);
+    html = html.format((index + 1), location.name, content, comments, commentFormContainer);
+    
     var div = $('#' + accordion);
     div.append(html);
   }
 
   var submitComment = function (form) {
-    var comment = { 'location_id': form.location_id.value, 'comment': {
+    var formData = { 'location_id': form.location_id.value, 'comment': {
       'name': form.name.value,
       'url': form.url.value,
       'content': form.content.value
@@ -124,9 +129,10 @@ var rtwMap = new function () {
       url: form.action,
       type: form.method,
       dataType: 'json',
-      data: comment,
+      data: formData,
       success: function (data) {
-        console.log('todo: display the new comment');
+        var html = getCommentHtml(formData.comment);
+        $('#location-comments-' + form.location_id.value).append(html);
         
         form.reset();
       },
