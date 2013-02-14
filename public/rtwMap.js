@@ -88,17 +88,21 @@ var rtwMap = new function () {
     return marker;
   }
 
-  var drawAccordion = function (index, location) {
-    var html = '<h3>{0}</h3><div><p>{1}</p></div>';
-    html = html.format((index + 1) + '. ' + location.name, 'Content area');
+  var drawAccordionElement = function (index, location) {
+    var html = '<h3>{0}. {1}</h3><div><p>{2}</p></div>';
+    var content = '<a href="#" class="location" id="location_' + location.sequence + '">See on Map</a>';
+    html = html.format((index + 1), location.name, content);
     var div = $('#' + accordion);
     div.append(html);
   }
 
   var displayLocations = function () {
     $.each(locationPoints, function (index, value) {
+      drawAccordionElement(index, this);
       this.marker = plotLocation(this);
-      drawAccordion(index, this);
+    });
+    $('#' + accordion).accordion({
+      heightStyle: 'content'
     });
   }
 
