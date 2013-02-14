@@ -103,25 +103,23 @@ var rtwMap = new function () {
   }
 
   var submitComment = function (form) {
-    //console.log('submitting comment ' + $(form).serialize());
     var comment = { 'location_id': form.location_id.value, 'comment': {
       'name': form.name.value,
       'url': form.url.value,
       'content': form.content.value
     } };
-    console.log(comment);
+
     $.ajax({
       url: form.action,
       type: form.method,
       dataType: 'json',
       data: comment,
       success: function (data) {
-        console.log('success!');
+        console.log('todo: display the new comment');
+        form.reset();
       },
       error: function (x, s, e) {
         console.log('Error submitting comment.');
-        console.log(s);
-        console.log(e);
       }
     });
     return false;
