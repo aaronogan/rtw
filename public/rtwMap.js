@@ -90,7 +90,7 @@ var rtwMap = new function () {
 
   var drawAccordionElement = function (index, location) {
     var html = '<h3>{0}. {1}</h3><div><p>{2}</p></div>';
-    var content = '<a href="#" class="location" id="location_' + location.sequence + '">See on Map</a>';
+    var content = '<a href="#" class="location" id="location_{0}">See on Map</a>'.format(location.sequence);
     html = html.format((index + 1), location.name, content);
     var div = $('#' + accordion);
     div.append(html);

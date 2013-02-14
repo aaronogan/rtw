@@ -16,3 +16,18 @@
     </div>
   </div>
 </div>
+
+<div class="hidden">
+  <%= form_tag({:controller => "comments"}, :method => "post") do %>
+    <%= label_tag(:name, "Name:") %>
+    <%= text_field_tag(:name) %>
+
+    <%= label_tag(:url, "Website:") %>
+    <%= text_field_tag(:url) %>
+
+    <%= label_tag(:content, "Comment:") %>
+    <%= text_area_tag(:content, "", :size => "24x2") %>
+
+    <%= submit_tag("Submit") %>
+  <% end %>
+</div>
