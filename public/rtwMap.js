@@ -13,6 +13,8 @@ var rtwMap = new function () {
   var markerColor = 'ff0000';
   var routeColor = 'ff0000';
 
+  var accordion = 'accordion';
+
   var commentsUrl = '/comments/create';
 
   var currentInfoWindow = null;
@@ -86,19 +88,27 @@ var rtwMap = new function () {
     return marker;
   }
 
-  var addToLocationsList = function (location) {
-    var div = $('#'+ locationsList);
-    if (div.children().length === 0) {
-      div.append('<ol></ol>');
-    }
-    var ol = div.children().first();
-    ol.append('<li><a href="#" class="location" id="location_' + location.sequence + '">' + location.name + '</a></li>');
+  //var addToLocationsList = function (location) {
+  //var div = $('#'+ locationsList);
+ // if (div.children().length === 0) {
+//    div.append('<ol></ol>');
+//  }
+ // var ol = div.children().first();
+//  ol.append('<li><a href="#" class="location" id="location_' + location.sequence + '">' + location.name + '</a></li>');// }
+
+  var drawAccordion = function (location) {
+    var html = '<h3>{0}</h3><div><p>{1}</p></div>';
+    html = html.format(location.name, 'Content area');
+
+    var div = $('#' + accordion);
+    div.append(html);
   }
 
   var displayLocations = function () {
     $.each(locationPoints, function () {
       this.marker = plotLocation(this);
-      addToLocationsList(this);
+      //addToLocationsList(this);
+      drawAccordion(this);
     });
   }
 
