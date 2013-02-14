@@ -88,27 +88,17 @@ var rtwMap = new function () {
     return marker;
   }
 
-  //var addToLocationsList = function (location) {
-  //var div = $('#'+ locationsList);
- // if (div.children().length === 0) {
-//    div.append('<ol></ol>');
-//  }
- // var ol = div.children().first();
-//  ol.append('<li><a href="#" class="location" id="location_' + location.sequence + '">' + location.name + '</a></li>');// }
-
-  var drawAccordion = function (location) {
+  var drawAccordion = function (index, location) {
     var html = '<h3>{0}</h3><div><p>{1}</p></div>';
-    html = html.format(location.name, 'Content area');
-
+    html = html.format((index + 1) + '. ' + location.name, 'Content area');
     var div = $('#' + accordion);
     div.append(html);
   }
 
   var displayLocations = function () {
-    $.each(locationPoints, function () {
+    $.each(locationPoints, function (index, value) {
       this.marker = plotLocation(this);
-      //addToLocationsList(this);
-      drawAccordion(this);
+      drawAccordion(index, this);
     });
   }
 
