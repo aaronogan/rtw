@@ -109,7 +109,10 @@ var rtwMap = new function () {
     comments = comments.format(location.sequence, pastComments);
 
     var commentForm = $('div.hidden form');
+    commentForm.find('input[name="location_id"]').remove();
     commentForm.append($('<input>', { 'name': 'location_id', 'value': location.id, 'type': 'hidden' }));
+
+    console.log(commentForm[0].outerHTML);
 
     var commentFormContainer = '<div>Leave a comment<br />{0}'.format(commentForm[0].outerHTML);
     html = html.format((index + 1), location.name, content, comments, commentFormContainer);
@@ -138,6 +141,7 @@ var rtwMap = new function () {
       },
       error: function (x, s, e) {
         console.log('Error submitting comment.');
+        console.log(formData);
       }
     });
     return false;
