@@ -15,8 +15,6 @@ var rtwMap = new function () {
 
   var accordion = 'accordion';
 
-  var commentsUrl = '/comments/create';
-
   var currentInfoWindow = null;
 
   var getMarkerImgPath = function (sequence) {
@@ -27,7 +25,7 @@ var rtwMap = new function () {
     console.log(locations);
     $.each(locations, function () {
       var latLng = new google.maps.LatLng(this.lat, this.lon);
-      locationPoints.push({ name: this.name, point: latLng, sequence: this.sequence, photoset: this.photoset, comments: this.comments });
+      locationPoints.push({ id: this.id,  name: this.name, point: latLng, sequence: this.sequence, photoset: this.photoset, comments: this.comments });
     });
   }
 
@@ -89,11 +87,44 @@ var rtwMap = new function () {
   }
 
   var drawAccordionElement = function (index, location) {
-    var html = '<h3>{0}. {1}</h3><div><p>{2}</p></div>';
+    var html = '<h3>{0}. {1}</h3><div><p>{2}</p><p>{3}</p></div>';
     var content = '<a href="#" class="location" id="location_{0}">See on Map</a>'.format(location.sequence);
-    html = html.format((index + 1), location.name, content);
+    var pastComments = '';
+    $.each(location.comments, function () {
+      console.log('todo: display comment');
+    });
+    var commentForm = $('div.hidden form');
+    commentForm.append($('<input>', { 'name': 'location_id', 'value': location.id, 'type': 'hidden' }));
+    var comments = '{0}Leave a comment<br />{1}'.format(pastComments, commentForm[0].outerHTML);
+    html = html.format((index + 1), location.name, content, comments);
+
     var div = $('#' + accordion);
     div.append(html);
+  }
+
+  var submitComment = function (form) {
+    //console.log('submitting comment ' + $(form).serialize());
+    var comment = { 'location_id': form.location_id.value, 'comment': {
+      'name': form.name.value,
+      'url': form.url.value,
+      'content': form.content.value
+    } };
+    console.log(comment);
+    $.ajax({
+      url: form.action,
+      type: form.method,
+      dataType: 'json',
+      data: comment,
+      success: function (data) {
+        console.log('success!');
+      },
+      error: function (x, s, e) {
+        console.log('Error submitting comment.');
+        console.log(s);
+        console.log(e);
+      }
+    });
+    return false;
   }
 
   var displayLocations = function () {
@@ -141,6 +172,10 @@ var rtwMap = new function () {
           displayLocations();
           drawRoute();
           addDomListeners();
+          $('form').submit(function () {
+            submitComment(this);
+            return false;
+          });
         },
         error: function () {
           console.log('Error obtaining locations.');

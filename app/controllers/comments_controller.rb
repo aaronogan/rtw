@@ -40,7 +40,9 @@ class CommentsController < ApplicationController
   # POST /comments
   # POST /comments.json
   def create
-    @comment = Comment.new(params[:comment])
+    @location = Location.find(params[:location_id])
+    #@comment = Comment.new(params[:comment])
+    @comment = @location.comments.build(params[:comment])
 
     respond_to do |format|
       if @comment.save
