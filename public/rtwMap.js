@@ -55,23 +55,23 @@ var rtwMap = new function () {
   }
 
   var attachInfoWindow = function (location, marker) {
-    var content = '<h4>' + location.name + '</h4>{0}';
+    var content = '<h4>{0}</h4>{1}';
     var photos = '';
 
     if (location.photoset) {
       rtwFlickr.getPhotosetPreview(location.photoset, function (data) {
         photos += '<table><tr>';
-        photos += '<td><img src="' + data.thumbs[0] + '"></td>';
-        photos += '<td><img src="' + data.thumbs[1] + '"></td></tr>';
-        photos += '<tr><td><img src="' + data.thumbs[2] + '"></td>';
-        photos += '<td><img src="' + data.thumbs[3] + '"></td>';
+        photos += '<td><img src="{0}"></td>'.format(data.thumbs[0]);
+        photos += '<td><img src="{0}"></td></tr>'.format(data.thumbs[1]);
+        photos += '<tr><td><img src="{0}"></td>'.format(data.thumbs[2]);
+        photos += '<td><img src="{0}"></td>'.format(data.thumbs[3]);
         photos += '</tr></table>';
-        photos += '<a href="' + rtwFlickr.getPhotosetUrl(location.photoset) + '" target="_blank">See Photos</a>';
-        content = content.format(photos);
+        photos += '<a href="{0}" target="_blank">See Photos</a>'.format(rtwFlickr.getPhotosetUrl(location.photoset));
+        content = content.format(location.name, photos);
         setInfoWindowListener(location.point, marker, content);
       });
     } else {
-      content = content.format(photos);
+      content = content.format(location.name, photos);
       setInfoWindowListener(location.point, marker, content);
     }
   }
