@@ -52,22 +52,9 @@ var rtwMap = new function () {
     });
   }
 
-  var addPhotosetPreview = function (content, photoset, callback) {
-    rtwFlickr.getPhotosetPreview(photoset, function (data) {
-      callback();
-    });
-  }
-
   var attachInfoWindow = function (location, marker) {
-    var content = '<h4>' + location.name + '</h4>{0}{1}';
-    var comments = '';
+    var content = '<h4>' + location.name + '</h4>{0}';
     var photos = '';
-
-    if (location.comments) {
-      $.each(location.comments, function () {
-        comments += '<span>' + this.name + ' says: ' + this.comment  + '</span><br />'
-      });
-    }
 
     if (location.photoset) {
       rtwFlickr.getPhotosetPreview(location.photoset, function (data) {
@@ -78,11 +65,11 @@ var rtwMap = new function () {
         photos += '<td><img src="' + data.thumbs[3] + '"></td>';
         photos += '</tr></table>';
         photos += '<a href="' + rtwFlickr.getPhotosetUrl(location.photoset) + '" target="_blank">See Photos</a>';
-        content = content.format(photos, comments);
+        content = content.format(photos);
         setInfoWindowListener(location.point, marker, content);
       });
     } else {
-      content = content.format(photos, comments);
+      content = content.format(photos);
       setInfoWindowListener(location.point, marker, content);
     }
   }
